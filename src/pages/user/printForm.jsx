@@ -56,7 +56,7 @@ export default function PrintForm() {
         {
           icon: UserIcon,
           title: "ID",
-          value: "NU2041A/291",
+          value: userDetail.id || "NU2041A/291",
           valueExtra: "",
         },
         {
@@ -121,7 +121,7 @@ export default function PrintForm() {
       <div className="my-10">
         <h1 className="text-black font-dmSans font-bold text-4xl text-center">
           Invite Details/Status:{" "}
-          <span className="text-[#828282]">NU2041A/291</span>
+          <span className="text-[#828282]">{userDetail.id}</span>
         </h1>
       </div>
       <div className="py-8 w-full flex flex-col justify-center items-center">
