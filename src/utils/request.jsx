@@ -15,15 +15,5 @@ const Post = (url, data, callback) => {
     });
 };
 
-const Get = (url, callback) => {
-  api
-    .get(url)
-    .then((res) => {
-      callback && callback(res.data, null);
-    })
-    .catch((err) => {
-      callback && callback(null, err.response.data);
-    });
-};
 
-export { Post, Get };
+export { Post };
