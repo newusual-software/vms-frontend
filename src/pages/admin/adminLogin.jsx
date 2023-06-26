@@ -9,6 +9,7 @@ import {
 } from "../../assets";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye as EyeIcon, FaEyeSlash as EyeOffIcon } from 'react-icons/fa';
+import { Post } from "../../utils/request";
 
 
 export default function AdminLogin() {
@@ -16,46 +17,53 @@ export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const [remember, setRemember] = useState(true);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const validateForm = () => {
-    let isValid = true
-    if ( email == '' || password == '' ) {
-      isValid = false
-      alert('invalid credential')
+    let isValid = true;
+    if (email == "" || password == "") {
+      isValid = false;
+      alert("invalid credential");
     }
 
-    return isValid
-  }
+    return isValid;
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleSubmit = () => {
-
+    const data = {
+      email,
+      password,
+    };
     if (validateForm()) {
-
-      // signInWithEmailAndPassword(
-      //   auth,
-      //   email,
-      //   password
-      // )
-      //   .then(async() => {
-      //     alert('success')
-      //     // const user = userCredential.user;
-      //     // let useId = user.uid;
-      //     navigate("/adminDashboard");
-                        
-
-      //   })
-      //   .catch((err) => {
-      //     alert(err)
-      //   })
+      Post("/admin/login", data, (response, error) => {
+        if (response.success === true) {
+          // Handle successful response
+          console.log("Response:", response);
+          setEmail("");
+          setPassword("");
+          localStorage.setItem("token", JSON.stringify(response.token));
+          if (typeof window !== "undefined") {
+            setTimeout(() => {
+              navigate("/adminDashboard");
+            }, 2000);
+          }
+        } else {
+          // Handle error
+          console.error("Error:", error.error);
+          if (error.error == "Visitor with this email already exists") {
+            alert("email already exist");
+          }
+        }
+      });
+    } else {
+      return false;
     }
-  }
+  };
   return (
     <div>
       <AuthLayout

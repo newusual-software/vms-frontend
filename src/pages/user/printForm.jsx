@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import Header from "../../components/common/header";
 import {
@@ -9,18 +8,15 @@ import {
   TimeIcon,
   QueryIcon,
   AlarmIcon,
-  GroupIcon,
 } from "../../assets";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function PrintForm() {
-  const navigate = useNavigate();
+const PrintForm = () => {
   const [userDetails, setUserDetails] = useState([]);
   const [userDetail, setUserDetail] = useState(null);
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId"); // Get the user ID from local storage
+    const userId = localStorage.getItem("userId");
     if (userId) {
       fetchUserDetails(userId);
     }
@@ -31,23 +27,12 @@ export default function PrintForm() {
     axios
       .get(apiUrl)
       .then((response) => {
-        // Handle the response data
         const data = response.data;
-        // Process the data as needed
         setUserDetail(data.visitor);
       })
       .catch((error) => {
-        // Handle any errors that occurred during the request
         console.error(error);
       });
-
-    // Get(url, (response, error) => {
-    //   if (response) {
-    //     setUserDetail(response); // Set the user details in state
-    //   } else {
-    //     console.error("Error:", error);
-    //   }
-    // });
   };
 
   useEffect(() => {
@@ -101,12 +86,6 @@ export default function PrintForm() {
           value: "Scheduled",
           valueExtra: "",
         },
-        {
-          icon: GroupIcon,
-          title: "Reception By",
-          value: "James",
-          valueExtra: "ANDREW",
-        },
       ]);
     }
   }, [userDetail]);
@@ -121,7 +100,7 @@ export default function PrintForm() {
       <div className="my-10">
         <h1 className="text-black font-dmSans font-bold text-4xl text-center">
           Invite Details/Status:{" "}
-          <span className="text-[#828282]">{userDetail.id}</span>
+          <span className="text-[#828282]">{userDetail && userDetail.id}</span>
         </h1>
       </div>
       <div className="py-8 w-full flex flex-col justify-center items-center">
@@ -132,16 +111,16 @@ export default function PrintForm() {
           >
             <div className="flex justify-center items-center gap-3">
               <div>
-                <img src={userDetail?.icon} alt="" />
+                <img src={userDetail.icon} alt="" />
               </div>
               <div>
-                <h3 className="w-full px-4 py-2">{userDetail?.title}</h3>
+                <h3 className="w-full px-4 py-2">{userDetail.title}</h3>
               </div>
             </div>
 
             <div className="text-left w-[20rem]">
               <h3 className="px-4 py-2">
-                {userDetail?.value} <span>{userDetail?.valueExtra}</span>
+                {userDetail.value} <span>{userDetail.valueExtra}</span>
               </h3>
             </div>
           </div>
@@ -158,4 +137,6 @@ export default function PrintForm() {
       </div>
     </div>
   );
-}
+};
+
+export default PrintForm;
