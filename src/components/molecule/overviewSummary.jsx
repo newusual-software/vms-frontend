@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import io from "socket.io-client";
 
 export default function OverviewSummary() {
   const [allVisitor, setAllVisitor] = useState([]);
@@ -9,24 +8,22 @@ export default function OverviewSummary() {
   const [totalStaffInvite, setTotalStaffInvite] = useState(0);
 
   useEffect(() => {
-    const socket = io("https://vms-backend.up.railway.app");
-
-    // Listen for 'visitorDataUpdated' event from the server
-    socket.on("visitorDataUpdated", () => {
-      fetchAllVisitor();
-      fetchStaffVisitor();
-      fetchInvitedVisitor();
-      fetchNonInvitedVisitor();
-    });
-
     fetchAllVisitor();
     fetchStaffVisitor();
     fetchInvitedVisitor();
     fetchNonInvitedVisitor();
 
-    // Clean up the socket connection
+    // Start polling every 10 seconds
+    const pollingInterval = setInterval(() => {
+      fetchAllVisitor();
+      fetchStaffVisitor();
+      fetchInvitedVisitor();
+      fetchNonInvitedVisitor();
+    }, 50000); // 5 seconds
+
+    // Clean up the interval when the component unmounts
     return () => {
-      socket.disconnect();
+      clearInterval(pollingInterval);
     };
   }, []);
 
@@ -55,18 +52,11 @@ export default function OverviewSummary() {
         const currentStaffId = staffId;
 
         // Filter the visitors array based on the staffId matching the currentStaffId
-        const staffVisitors = visitors.filter((visitor) => visitor.staffId);
-        const staffIds = staffVisitors.map((visitor) => visitor.staffId);
+        const staffVisitors = visitors.filter(
+          (visitor) => visitor.staffId === currentStaffId
+        );
 
-        // Count the number of matches
-        let totalStaffInvite = 0;
-        staffIds.forEach((id) => {
-          if (id === currentStaffId) {
-            totalStaffInvite++;
-          }
-        });
-
-        setTotalStaffInvite(totalStaffInvite);
+        setTotalStaffInvite(staffVisitors.length);
       })
       .catch((error) => {
         console.error(error);
@@ -98,13 +88,14 @@ export default function OverviewSummary() {
         console.error(error);
       });
   };
+
   return (
     <div className="w-full flex flex-row justify-between items-center gap-8">
       <div className="w-[25%] bg-white shadow-xl rounded-2xl flex flex-col justify-center item-center">
         <div className="w-full flex flex-col justify-center item-center">
           <div className="w-full pt-14">
             <h1 className="w-full font-dmSans text-center text-[#828282] font-bold text-5xl">
-              {allVisitor.length > 0 ? allVisitor.length : 0}
+              {allVisitor.length}
             </h1>
           </div>
           <div className="flex flex-col gap-2 pt-10 pb-4 justify-center items-center">
@@ -121,7 +112,7 @@ export default function OverviewSummary() {
         <div className="w-full flex flex-col justify-center item-center">
           <div className="w-full pt-14">
             <h1 className="w-full font-dmSans text-center text-[#828282] font-bold text-5xl">
-              {allInvitedVisitor.length > 0 ? allInvitedVisitor.length : 0}
+              {allInvitedVisitor.length}
             </h1>
           </div>
 
@@ -157,9 +148,7 @@ export default function OverviewSummary() {
         <div className="w-full flex flex-col justify-center item-center">
           <div className="w-full pt-14">
             <h1 className="w-full font-dmSans text-center text-[#828282] font-bold text-5xl">
-              {allNotInvitedVisitor.length > 0
-                ? allNotInvitedVisitor.length
-                : 0}
+              {allNotInvitedVisitor.length}
             </h1>
           </div>
           <div className="flex flex-col gap-2 pt-10 pb-4 justify-center items-center">
