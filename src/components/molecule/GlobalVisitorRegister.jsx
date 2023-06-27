@@ -1,30 +1,79 @@
 /* eslint-disable react/prop-types */
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CloseIcon } from "../../assets/index";
+import Input from "../atoms/input";
+import {
+  IncompleteProgressBar,
+  CompleteProgressBar,
+  Calender,
+  UserIcon,
+  ContactIcon,
+  PhoneIcon,
+  TimeIcon,
+  QueryIcon,
+  CloseIcon,
+} from "../../assets/index";
 
-export const GlobalDialog = ({ isOpen, closeModal, handleSend }) => {
+export const GlobalRegister = ({
+  isOpen,
+  closeModal,
+  handleSend,
+}) => {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [duration, setDuration] = useState(""); // New state for duration input
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [step, setStep] = useState(1);
 
-  const handleChange = (e) => {
-    setEmail(e.target.value);
+  useEffect(() => {
+    if (!isOpen) {
+      resetForm();
+    }
+  }, [isOpen]);
+
+  const resetForm = () => {
+    setFullName("");
+    setEmail("");
+    setDate("");
+    setTime("");
+    setPurpose("");
+    setPhoneNumber("");
+    setStep(1);
   };
 
-  const handleDurationChange = (e) => {
-    setDuration(e.target.value);
+  const validateForm = () => {
+    let isValid = true;
+    if (
+      email === "" ||
+      fullName === "" ||
+      date === "" ||
+      time === "" ||
+      purpose === "" ||
+      phoneNumber === ""
+    ) {
+      isValid = false;
+      alert("Invalid credentials");
+      return setStep(1);
+    }
+
+    return isValid;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleSend(email, duration); // Pass duration as an argument to handleSend function
-    setEmail("");
-    setDuration("");
+    if (validateForm()) {
+      handleSend(email, fullName, date, time, purpose, phoneNumber);
+      resetForm();
+    } else {
+      return setStep(1);
+    }
   };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog as="div" className="relative z-[999]" onClose={closeModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -48,7 +97,7 @@ export const GlobalDialog = ({ isOpen, closeModal, handleSend }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-2xl h-[20rem] transform overflow-hidden rounded-2xl flex flex-col justify-center  bg-white px-12 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-3xl h-[38rem] transform overflow-hidden rounded-2xl flex flex-col justify-center  bg-white px-12 text-left align-middle shadow-xl transition-all">
                 <div
                   onClick={closeModal}
                   className="cursor-pointer absolute right-14 top-8"
@@ -56,51 +105,112 @@ export const GlobalDialog = ({ isOpen, closeModal, handleSend }) => {
                   <img src={CloseIcon} alt="" />
                 </div>
                 <h1 className="block text-xl font-medium text-center text-gray-700">
-                  Invite Visitor by Email
+                  Create A New Visitor
                 </h1>
-                <form onSubmit={handleSubmit}>
-                  <div className="mt-2">
-                    <label
-                      htmlFor="email"
-                      className="block text-lg font-medium text-gray-700"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={handleChange}
-                      className="mt-1 px-3 py-2 block w-full border-gray-900 focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm"
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </div>
-                  <div className="mt-2">
-                    <label
-                      htmlFor="duration"
-                      className="block text-lg font-medium text-gray-700"
-                    >
-                      Duration
-                    </label>
-                    <input
-                      type="text"
-                      id="duration"
-                      value={duration}
-                      onChange={handleDurationChange}
-                      className="mt-1 px-3 py-2 block w-full border-gray-900 focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm"
-                      placeholder="Enter the duration"
-                      required
-                    />
-                  </div>
-                  <div className="mt-10 flex justify-center items-center">
-                    <button
-                      type="submit"
-                      className="bg-[#4F4F4F] font-bold w-[20rem] py-3 text-white rounded-lg outline-none border-none font-dmSans"
-                    >
-                      Send
-                    </button>
-                  </div>
+                <form
+                  action=""
+                  method="post"
+                  className="flex justify-center flex-col items-center"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (step === 1) {
+                      setStep(2);
+                    } else if (step === 2) {
+                      setStep(3);
+                    }
+                  }}
+                >
+                  {step === 1 ? (
+                    <div>
+                      <div className="pt-14 flex justify-center items-center">
+                        <img src={IncompleteProgressBar} alt="" />
+                      </div>
+
+                      <div className="w-full">
+                        <Input
+                          label={"full name"}
+                          icon={UserIcon}
+                          type={"text"}
+                          placeholder={"Full Name"}
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                        />
+                      </div>
+                      <div className="w-full">
+                        <Input
+                          label={"email address"}
+                          icon={ContactIcon}
+                          type={"email"}
+                          placeholder={"Email Address"}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                      <div className="w-full">
+                        <Input
+                          label={"phone number"}
+                          icon={PhoneIcon}
+                          type={"tel"}
+                          placeholder={"Phone Number"}
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="flex justify-center items-center">
+                        <button className="bg-[#4F4F4F] w-[20rem] py-3 text-white rounded-lg">
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  ) : step === 2 ? (
+                    <div>
+                      <div className="pt-14 flex justify-center items-center">
+                        <img src={CompleteProgressBar} alt="" />
+                      </div>
+                      <div className="w-full">
+                        <Input
+                          label={"Date"}
+                          icon={Calender}
+                          type={"date"}
+                          placeholder={"Date"}
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                        />
+                      </div>
+                      <div className="w-full">
+                        <Input
+                          label={"Time"}
+                          icon={TimeIcon}
+                          type={"time"}
+                          placeholder={"Time"}
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                        />
+                      </div>
+                      <div className="w-full">
+                        <Input
+                          label={"Purpose of visit"}
+                          icon={QueryIcon}
+                          type={"text"}
+                          placeholder={"Purpose of visit"}
+                          value={purpose}
+                          onChange={(e) => setPurpose(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="flex justify-center items-center">
+                        <button
+                          onClick={handleSubmit}
+                          className="bg-[#4F4F4F] w-[20rem] py-3 text-white rounded-lg"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    setStep(1)
+                  )}
                 </form>
               </Dialog.Panel>
             </Transition.Child>

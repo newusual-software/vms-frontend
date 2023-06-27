@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const Input = ({type,placeholder,label,icon,onChange, className, defaultValue}) => {
   return (
     <div className={`${className} my-14 p-3 w-[24rem]  rounded-md ring-1 ring-gray-300 bg-[#EFEFEF] `}>
