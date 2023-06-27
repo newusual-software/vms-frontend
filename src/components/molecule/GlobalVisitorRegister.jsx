@@ -122,7 +122,7 @@ export const GlobalRegister = ({
                 >
                   {step === 1 ? (
                     <div>
-                      <div className="pt-14 flex justify-center items-center">
+                      <div className="pt-6 flex justify-center items-center">
                         <img src={IncompleteProgressBar} alt="" />
                       </div>
 
@@ -165,7 +165,7 @@ export const GlobalRegister = ({
                     </div>
                   ) : step === 2 ? (
                     <div>
-                      <div className="pt-14 flex justify-center items-center">
+                      <div className="pt-6 flex justify-center items-center">
                         <img src={CompleteProgressBar} alt="" />
                       </div>
                       <div className="w-full">

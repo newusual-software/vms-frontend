@@ -19,7 +19,7 @@ export default function OverviewSummary() {
       fetchStaffVisitor();
       fetchInvitedVisitor();
       fetchNonInvitedVisitor();
-    }, 50000); // 5 seconds
+    }, 10000); // 5 seconds
 
     // Clean up the interval when the component unmounts
     return () => {
