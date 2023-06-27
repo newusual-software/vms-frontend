@@ -20,7 +20,7 @@ const VisitationHistoryTable = ({ visitors }) => {
           <th className=" py-2">
             <FaIdCard className="inline-block" /> ID
           </th>
-          <th className=" py-2">
+          <th className=" py-2 pl-5">
             <FaEnvelope className="inline-block" /> Email
           </th>
           <th className=" py-2">
@@ -31,13 +31,18 @@ const VisitationHistoryTable = ({ visitors }) => {
       <tbody>
         {visitors.map((row) => (
           <tr key={row.id} className="">
-            <td className="py-2 text-[#404040]" title={row.fullName}>
-              <FaUser className="far fa-user" />{" "}
-              {truncateText(row.fullName, 20)}
+            <td
+              className=" px-1 py-2 text-[#444444] font-bold cursor-pointer z-10"
+              title={row.fullName}
+            >
+              <i className="far fa-user"></i> {truncateText(row.fullName, 20)}
             </td>
             <td className="py-2 text-[#C7C7C7]">{row.id}</td>
-            <td className="py-2 text-[#C7C7C7]" title={row.email}>
-              <FaUser className="far fa-user" /> {truncateText(row.email, 18)}
+            <td
+              className=" px-5 py-2 text-[#444444] font-bold cursor-pointer z-10"
+              title={row.email}
+            >
+              <i className="far fa-user"></i> {truncateText(row.email, 20)}
             </td>
             <td className="py-2 text-[#C7C7C7]">{row.date}</td>
           </tr>

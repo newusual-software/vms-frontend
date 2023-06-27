@@ -14,6 +14,16 @@ const StaffVisitationHistory = () => {
     const storedStaffId = localStorage.getItem("staffId");
     setStaffId(storedStaffId);
     fetchAllVisitor();
+
+    // Start polling every 10 seconds
+    const pollingInterval = setInterval(() => {
+      fetchAllVisitor();
+    }, 10000); // 5 seconds
+
+    // Clean up the interval when the component unmounts
+    return () => {
+      clearInterval(pollingInterval);
+    };
   }, []);
 
   const openModal = () => {
