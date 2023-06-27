@@ -15,5 +15,26 @@ const Post = (url, data, callback) => {
     });
 };
 
+const Patch = (url, data, callback) => {
+  api
+    .patch(url, data)
+    .then((res) => {
+      callback && callback(res.data, null);
+    })
+    .catch((err) => {
+      callback && callback(null, err.response.data);
+    });
+};
 
-export { Post };
+const Get = (url, callback) => {
+  api
+    .get(url)
+    .then((res) => {
+      callback && callback(res.data, null);
+    })
+    .catch((err) => {
+      callback && callback(null, err.response.data);
+    });
+};
+
+export { Post, Patch, Get };

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import io from "socket.io-client";
 
 export default function OverviewSummary() {
   const [allVisitor, setAllVisitor] = useState([]);
@@ -8,10 +9,25 @@ export default function OverviewSummary() {
   const [totalStaffInvite, setTotalStaffInvite] = useState(0);
 
   useEffect(() => {
+    const socket = io("https://vms-backend.up.railway.app");
+
+    // Listen for 'visitorDataUpdated' event from the server
+    socket.on("visitorDataUpdated", () => {
+      fetchAllVisitor();
+      fetchStaffVisitor();
+      fetchInvitedVisitor();
+      fetchNonInvitedVisitor();
+    });
+
     fetchAllVisitor();
     fetchStaffVisitor();
     fetchInvitedVisitor();
     fetchNonInvitedVisitor();
+
+    // Clean up the socket connection
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const fetchAllVisitor = () => {
@@ -69,6 +85,7 @@ export default function OverviewSummary() {
         console.error(error);
       });
   };
+
   const fetchNonInvitedVisitor = () => {
     const apiUrl = `https://vms-backend.up.railway.app/api/not-invited-visitor`;
     axios
@@ -81,7 +98,6 @@ export default function OverviewSummary() {
         console.error(error);
       });
   };
-
   return (
     <div className="w-full flex flex-row justify-between items-center gap-8">
       <div className="w-[25%] bg-white shadow-xl rounded-2xl flex flex-col justify-center item-center">
