@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React from "react";
-import Input from "../components/atoms/input";
 import Header from "../components/common/header";
 
 export default function AuthLayout({children, heading, subHeading}) {

@@ -14,11 +14,7 @@ import {
   CloseIcon,
 } from "../../assets/index";
 
-export const GlobalRegister = ({
-  isOpen,
-  closeModal,
-  handleSend,
-}) => {
+export const GlobalRegister = ({ isOpen, closeModal, handleSend }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [date, setDate] = useState("");
@@ -97,20 +93,24 @@ export const GlobalRegister = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-3xl h-[38rem] transform overflow-hidden rounded-2xl flex flex-col justify-center  bg-white px-12 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-3xl h-[40rem] transform overflow-hidden rounded-2xl flex flex-col justify-center  bg-white px-32  text-left align-middle shadow-xl transition-all">
                 <div
                   onClick={closeModal}
                   className="cursor-pointer absolute right-14 top-8"
                 >
                   <img src={CloseIcon} alt="" />
                 </div>
-                <h1 className="block text-xl font-medium text-center text-gray-700">
-                  Create A New Visitor
-                </h1>
+                <div className=" font-bold  text-center text-black">
+                  <h2 className="text-3xl">Schedule a Visit</h2>
+                  <h5 className="px-10 text-lg py-3 text-[#BDBDBD]">
+                    You will be sent a confirmation mail when your reservation
+                    has been confirmed
+                  </h5>
+                </div>
                 <form
                   action=""
                   method="post"
-                  className="flex justify-center flex-col items-center"
+                  className="flex justify-center custom-shadow py-5 flex-col items-center"
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (step === 1) {
@@ -128,30 +128,30 @@ export const GlobalRegister = ({
 
                       <div className="w-full">
                         <Input
-                          label={"full name"}
+                          label={"Full Name of Visitor"}
                           icon={UserIcon}
                           type={"text"}
-                          placeholder={"Full Name"}
+                          placeholder={"Full Name of Visitor"}
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                         />
                       </div>
                       <div className="w-full">
                         <Input
-                          label={"email address"}
+                          label={"Email Address of Visitor"}
                           icon={ContactIcon}
                           type={"email"}
-                          placeholder={"Email Address"}
+                          placeholder={"Email Address of Visitor"}
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
                       <div className="w-full">
                         <Input
-                          label={"phone number"}
+                          label={"Phone Number of Visitor"}
                           icon={PhoneIcon}
                           type={"tel"}
-                          placeholder={"Phone Number"}
+                          placeholder={"Phone Number of Visitor"}
                           value={phoneNumber}
                           onChange={(e) => setPhoneNumber(e.target.value)}
                         />
