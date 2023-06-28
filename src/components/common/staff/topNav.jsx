@@ -112,10 +112,11 @@ export default function TopNav() {
           </div>
           <div className="flex flex-col leading-[1.3rem]">
             <h1
-              className="text-[#404040] font-bold font-dmSans text-md"
-              title={staffName}
+              className="text-[#404040] capitalize font-bold font-dmSans text-md"
+              title={!staffName ? "john doe" : staffName}
             >
-              <i className="far fa-user"></i> {truncateText(staffName, 10)}
+              <i className="far fa-user"></i>{" "}
+              {truncateText(!staffName ? "john doe" : staffName, 10)}
             </h1>
             <h3 className="text-[#AEAEAE] font-medium font-dmSans text-md">
               Staff account
