@@ -37,4 +37,15 @@ const Get = (url, callback) => {
     });
 };
 
-export { Post, Patch, Get };
+const Delete = (url, callback) => {
+  api
+    .delete(url)
+    .then((res) => {
+      callback && callback(res.data, null);
+    })
+    .catch((err) => {
+      callback && callback(null, err.response.data);
+    });
+};
+
+export { Post, Patch, Get, Delete };

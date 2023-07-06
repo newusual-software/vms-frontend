@@ -9,8 +9,8 @@ export default function SideNav() {
     { name: "Visitors Logbook", link: "/staffVistorLogbook", icon:"https://res.cloudinary.com/phantom1245/image/upload/v1680417731/nem-insurance/Group_73_oyhzxx.png"},
     { name: "Invitations", link: "/staffInvitation", icon:"https://res.cloudinary.com/phantom1245/image/upload/v1680417732/nem-insurance/Group_74_yc7c33.png" },
     { name: "Profile", link: "/staffProfileDashboard", icon:"https://res.cloudinary.com/phantom1245/image/upload/v1680417743/nem-insurance/Group_75_maus0m.png" },
-    { name: "VMS", link: "/staffVMS", icon:"https://res.cloudinary.com/phantom1245/image/upload/v1680450091/nem-insurance/award_kllsdv.png" },
-    { name: "Logout", link: "/#", icon:"https://res.cloudinary.com/phantom1245/image/upload/v1680450091/nem-insurance/award_kllsdv.png" }
+    // { name: "VMS", link: "/staffVMS", icon:"https://res.cloudinary.com/phantom1245/image/upload/v1680450091/nem-insurance/award_kllsdv.png" },
+    { name: "Logout", link: "/logout", icon:"https://res.cloudinary.com/phantom1245/image/upload/v1680450091/nem-insurance/award_kllsdv.png" }
   ];
   return (
     <div>

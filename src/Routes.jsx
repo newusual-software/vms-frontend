@@ -13,12 +13,13 @@ import AdminLogin from "./pages/admin/adminLogin";
 import AdminOrganizationProfile from "./pages/admin/adminOrganizationProfile";
 import AdminStaffManagement from "./pages/admin/adminStaffManagement";
 import AdminVisitorPurpose from "./pages/admin/adminVisitorPurpose";
-import Home from "./pages/Home";
+// import Home from "./pages/Home";
 import StaffDashboard from "./pages/staff/staffDashboard";
 import StaffInvitation from "./pages/staff/staffInvitation";
 import StaffLogin from "./pages/staff/staffLogin";
 import StaffProfileDashboard from "./pages/staff/staffProfileDashboard";
 import StaffVistorLogbook from "./pages/staff/staffVistorLogbook";
+import StaffLogout from "./pages/staff/staffLogout";
 import StaffVMS from "./pages/staff/staffVMS";
 import Landing from "./pages/user/landing";
 import PrintForm from "./pages/user/printForm";
@@ -29,9 +30,8 @@ import Register from "./pages/user/register";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} > 
-      <Route index element={<Home />} />
+      <Route index element={<Landing />} />
       {/* user routes */}
-      <Route path="/landing" element={<Landing />} />
       <Route path="/userSignUp" element={<Register />} />
       <Route path="/printForm" element={<PrintForm />} />
       {/* staff routes */}
@@ -43,6 +43,7 @@ const router = createBrowserRouter(
       <Route path="/staffVMS" element={<StaffVMS />} />
       <Route path="/staffCheckInOrOut" element={<StaffCheckInOrOut />} />
       <Route path="/staffVisitorListing" element={<StaffVisitorListing />} />
+      <Route path="/logout" element={<StaffLogout />} />
 
       {/* admin routes */}
       <Route path="/adminLogin" element={<AdminLogin />} />

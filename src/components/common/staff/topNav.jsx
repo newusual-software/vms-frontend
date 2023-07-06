@@ -107,7 +107,7 @@ export default function TopNav() {
           <div>
             <img src={NotificationIcon} alt="" />
           </div>
-          <div className="bg-[#FFC145] rounded-full">
+          <div  className="bg-[#FFC145] rounded-full">
             <img src={UserAvatarIcon} alt="" />
           </div>
           <div className="flex flex-col leading-[1.3rem]">

@@ -35,7 +35,6 @@ export default function StaffNotificationTable() {
         const matchingStaffVisitors = staffVisitors.filter(
           (visitor) => visitor.date === currentDate
         );
-
         setStaffVisitorToday(matchingStaffVisitors);
       })
       .catch((error) => {

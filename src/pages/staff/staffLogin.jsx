@@ -36,7 +36,8 @@ export default function StaffLogin() {
     };
     if (validateForm()) {
       Post("/staff/login", data, (response, error) => {
-        if (response.success === true) {
+        console.log(response)
+        if (response) {
           // Handle successful response
           console.log("Response:", response);
           setEmail("");

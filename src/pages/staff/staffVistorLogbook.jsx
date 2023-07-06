@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AltTopNav from "../../components/common/altTopNav";
 import StaffDashboardLayout from "../../layout/staffDashboardLayout";
-import { Get } from "../../utils/request";
+import { Get, Delete } from "../../utils/request";
 
 export default function StaffVistorLogbook() {
   const [filter, setFilter] = useState("all");
@@ -58,6 +58,21 @@ export default function StaffVistorLogbook() {
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
+
+  const handleDelete = (userId) => {
+    Delete(`/visitor/${userId}`, (data, error) => {
+      if (error) {
+        console.error("Error deleting user:", error);
+      } else {
+        console.log("User deleted successfully:", data);
+        // Remove the deleted user from the allVisitor state
+        setAllVisitor((prevVisitor) =>
+          prevVisitor.filter((visitor) => visitor._id !== userId)
+        );
+      }
+    });
+  };
+
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
       return `${text.slice(0, maxLength)}...`;
@@ -154,7 +169,7 @@ export default function StaffVistorLogbook() {
                   />
                   Visitor
                 </th>
-                
+
                 <th className="pl-5 py-4">
                   <img
                     src="https://res.cloudinary.com/phantom1245/image/upload/v1680872978/nem-insurance/coolicon1_gt5erz.png"
@@ -188,6 +203,14 @@ export default function StaffVistorLogbook() {
                   />
                   Duration
                 </th>
+                <th className="pl-5 py-4">
+                  <img
+                    src="https://res.cloudinary.com/phantom1245/image/upload/v1680872978/nem-insurance/delete_icon.png"
+                    className="inline-block pr-2 w-6"
+                    alt=""
+                  />
+                  Delete
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -198,7 +221,7 @@ export default function StaffVistorLogbook() {
                     title={visitor.fullName}
                   >
                     <i className="far fa-user"></i>{" "}
-                    {truncateText(visitor.fullName, 8)}
+                    {truncateText(visitor.fullName, 22)}
                   </td>
                   {/* <td
                     className=" px-5 py-2 text-[#828282] cursor-pointer z-10"
@@ -221,7 +244,9 @@ export default function StaffVistorLogbook() {
                     {visitor.invited === true ? (
                       "Invited"
                     ) : (
-                      <button className="bg-red-900 py-1 px-3">Invite</button>
+                      <button className="bg-blue-900 py-1 px-3 text-white rounded">
+                        Invite
+                      </button>
                     )}
                   </td>
 
@@ -235,6 +260,14 @@ export default function StaffVistorLogbook() {
                     {visitor.duration === undefined
                       ? "0 hours"
                       : visitor.duration}
+                  </td>
+                  <td className=" px-5 text-[#828282] py-2">
+                    <button
+                      className="bg-red-900 py-1 px-3 text-white rounded"
+                      onClick={() => handleDelete(visitor._id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
