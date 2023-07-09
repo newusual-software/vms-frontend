@@ -3,7 +3,7 @@ import AltTopNav from "../../components/common/altTopNav";
 import StaffDashboardLayout from "../../layout/staffDashboardLayout";
 import { Get, Delete } from "../../utils/request";
 
-export default function StaffVistorLogbook() {
+export default function StaffVisitorLogbook() {
   const [filter, setFilter] = useState("all");
   const [allVisitor, setAllVisitor] = useState([]);
   const [staffData, setStaffData] = useState([]);
