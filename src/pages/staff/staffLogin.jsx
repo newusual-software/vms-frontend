@@ -36,7 +36,6 @@ export default function StaffLogin() {
     };
     if (validateForm()) {
       Post("/staff/login", data, (response, error) => {
-        console.log(response)
         if (response) {
           // Handle successful response
           console.log("Response:", response);
@@ -53,19 +52,24 @@ export default function StaffLogin() {
           const decodedToken = jwtDecode(response.token);
 
           // You can access the decoded data properties as needed
+          localStorage.setItem("token", response.token);
           localStorage.setItem("staffId", decodedToken.id);
 
           if (typeof window !== "undefined") {
+            alert("signed in successfully")
             setTimeout(() => {
+              
               navigate("/staffDashboard");
             }, 2000);
           }
         } else {
           // Handle error
-          console.error("Error:", error.error);
-          if (error.error == "Visitor with this email already exists") {
-            alert("email already exist");
+          if (typeof error.error == "undefined") {
+            alert("Invalid credentials");
           }
+
+          console.log("Error:", typeof(error.error));
+          
         }
       });
     } else {
