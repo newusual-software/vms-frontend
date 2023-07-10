@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -67,7 +68,7 @@ const VisitorTable = ({ allVisitor, handleDelete, truncateText }) => {
                 className=" px-5 py-2 text-[#444444] font-bold cursor-pointer z-10"
                 title={visitor.fullName}
               >
-                <Link to={`/staffCheckInOrOut/${visitor._id}`}>
+                <Link to={`/visitor-profile/${visitor._id}`}>
                   <i className="far fa-user"></i>{" "}
                   {truncateText(visitor.fullName, 22)}
                 </Link>
