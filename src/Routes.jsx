@@ -56,7 +56,7 @@ const MyRoutes = () => {
               />
             }
           />
-          
+
           <Route
             path="/staffVisitorLogbook"
             element={
@@ -89,10 +89,10 @@ const MyRoutes = () => {
             element={<ProtectedRoute path="/staffVMS" element={<StaffVMS />} />}
           />
           <Route
-            path="/staffCheckInOrOut"
+            path="/staffCheckInOrOut/:id"
             element={
               <ProtectedRoute
-                path="/staffCheckInOrOut"
+                path="/staffCheckInOrOut/:id"
                 element={<StaffCheckInOrOut />}
               />
             }
@@ -160,18 +160,11 @@ const MyRoutes = () => {
             }
           />
 
-          <Route path="/login/*" element={<LoginUnauthorized />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
     </Router>
   );
 };
-
-const LoginUnauthorized = () => (
-  <div>
-    <h1>Unauthorized</h1>
-    <p>You are not authorized to access this page. Please log in.</p>
-  </div>
-);
 
 export default MyRoutes;
