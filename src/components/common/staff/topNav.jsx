@@ -7,11 +7,13 @@ import {
 } from "../../../assets/index";
 import { GlobalDialog } from "../../molecule/GlobalDialogInvite";
 import { Patch, Get } from "../../../utils/request";
+import { useNavigate } from "react-router-dom";
 
 export default function TopNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [staffId, setStaffId] = useState("");
   const [staffName, setStaffName] = useState("")
+  let navigate = useNavigate()
 
   useEffect(() => {
     const storedStaffId = localStorage.getItem("staffId");
@@ -110,7 +112,7 @@ export default function TopNav() {
           <div  className="bg-[#FFC145] rounded-full">
             <img src={UserAvatarIcon} alt="" />
           </div>
-          <div className="flex flex-col leading-[1.3rem]">
+          <div className="flex cursor-pointer flex-col leading-[1.3rem]" onClick={() => navigate("/staffProfileDashboard")}>
             <h1
               className="text-[#404040] capitalize font-bold font-dmSans text-md"
               title={!staffName ? "john doe" : staffName}
