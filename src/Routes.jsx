@@ -9,6 +9,7 @@ import {
 import App from "./App";
 import StaffCheckInOrOut from "./components/molecule/checkInOrOut";
 import StaffVisitorListing from "./components/molecule/staff/staffVisitorListing";
+import VisitorProfile from "./components/molecule/staff/visitorProfile";
 import AdminDashboard from "./pages/admin/adminDashboard";
 import AdminDepartmentManagement from "./pages/admin/adminDepartmentManagement";
 import AdminLogin from "./pages/admin/adminLogin";
@@ -94,6 +95,15 @@ const MyRoutes = () => {
               <ProtectedRoute
                 path="/staffCheckInOrOut/:id"
                 element={<StaffCheckInOrOut />}
+              />
+            }
+          />
+          <Route
+            path="/visitor-profile/:id"
+            element={
+              <ProtectedRoute
+                path="/visitor-profile/:id"
+                element={<VisitorProfile />}
               />
             }
           />
