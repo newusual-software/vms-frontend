@@ -1,11 +1,69 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { Patch } from "../../../utils/request";
+import { DialogInvite } from "../DialogInvite";
 
 const VisitorTable = ({ allVisitor, handleDelete, truncateText }) => {
+  const [email, setEmail] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [staffId, setStaffId] = useState("");
+
+  useEffect(() => {
+    const storedStaffId = localStorage.getItem("staffId");
+    setStaffId(storedStaffId);
+  }, []);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleButtonClick = (visitorEmail) => {
+    openModal();
+    setEmail(visitorEmail);
+    
+    // Any other logic you want to perform when the button is clicked
+  };
+
+  const handleSend = (duration) => {
+    const url = "/staff/invite";
+    const data = {
+      email,
+      duration,
+      staffId,
+    };
+    Patch(url, data, (response, error) => {
+      if (error) {
+        // Handle the error
+        console.error("Error:", error);
+        if (
+          error.error ===
+          "Please add a Purpose of Visit,Please add a Time,Please add a Date,Please add a Phone Number,Please add a Full Name"
+        ) {
+          alert("No such user found");
+        } else {
+          alert(error.message);
+        }
+      } else {
+        // Handle the successful response
+        alert(response.message);
+      }
+    });
+    closeModal();
+  };
   return (
     <div className="overflow-y-auto pl-40 pt-8 w-full">
+      <>
+        <DialogInvite
+          isOpen={isOpen}
+          closeModal={closeModal}
+          handleSend={handleSend}
+        />
+      </>
       <table className="table-auto ">
         <thead>
           <tr className="border-b text-left text-[#404040]">
@@ -61,6 +119,7 @@ const VisitorTable = ({ allVisitor, handleDelete, truncateText }) => {
             </th>
           </tr>
         </thead>
+
         <tbody>
           {allVisitor.map((visitor) => (
             <tr className="mt-10 font-dmSans" key={visitor._id}>
@@ -95,7 +154,10 @@ const VisitorTable = ({ allVisitor, handleDelete, truncateText }) => {
                 {visitor.invited === true ? (
                   "Invited"
                 ) : (
-                  <button className="bg-blue-900 py-1 px-3 text-white rounded">
+                  <button
+                    onClick={() => handleButtonClick(visitor.email)}
+                    className="bg-blue-900 py-1 px-3 text-white rounded"
+                  >
                     Invite
                   </button>
                 )}
@@ -105,7 +167,7 @@ const VisitorTable = ({ allVisitor, handleDelete, truncateText }) => {
                 className=" px-4 py-2 text-[#828282] cursor-pointer z-10"
                 title={visitor.email}
               >
-                {truncateText(visitor.email, 8)}
+                {truncateText(visitor.email, 12)}
               </td>
               <td className=" px-4 text-[#828282]  py-2">
                 {visitor.duration === undefined ? "0 hours" : visitor.duration}
